@@ -1,0 +1,265 @@
+#!/usr/bin/env python3
+
+from sys import argv, exit
+from math import factorial, pow
+
+def check_num(d, n):
+    c = 0
+    if d[0] == n:
+        c += 1
+    if d[1] == n:
+        c += 1
+    if d[2] == n:
+        c += 1
+    if d[3] == n:
+        c += 1
+    if d[4] == n:
+        c += 1
+    return c
+
+def check_pair(c):
+    result = 0
+    for x in range(2 - c, 6 - c):
+        _1 = factorial((5 - c) - x)
+        _2 = factorial(x) * _1
+        _3 = (factorial(5 - c) / _2)
+        _4 = _3 * pow(1 / 6, x) * pow(5 / 6, (5 - c) - x)
+        result += _4
+
+    return result * 100
+
+def check_three(c):
+    result = 0
+    for x in range(3 - c, 6 - c):
+        _1 = factorial((5 - c) - x)
+        _2 = factorial(x) * _1
+        _3 = (factorial(5 - c) / _2)
+        _4 = _3 * pow(1 / 6, x) * pow(5 / 6, (5 - c) - x)
+        result += _4
+
+    return result * 100
+
+def check_four(c):
+    result = 0
+    for x in range(4 - c, 6 - c):
+        _1 = factorial((5 - c) - x)
+        _2 = factorial(x) * _1
+        _3 = (factorial(5 - c) / _2)
+        _4 = _3 * pow(1 / 6, x) * pow(5 / 6, (5 - c) - x)
+        result += _4
+
+    return result * 100
+
+def check_yams(c):
+    result = 0
+    for x in range(5 - c, 6 - c):
+        _1 = factorial((5 - c) - x)
+        _2 = factorial(x) * _1
+        _3 = (factorial(5 - c) / _2)
+        _4 = _3 * pow(1 / 6, x) * pow(5 / 6, (5 - c) - x)
+        result += _4
+
+    return result * 100
+
+def check_for_straight(d, n):
+    total = 0
+    if (d[0] == n):
+        total += 1
+    if (d[1] == n):
+        total += 1
+    if (d[2] == n):
+        total += 1
+    if (d[3] == n):
+        total += 1
+    if (d[4] == n):
+        total += 1
+    if (total > 1):
+        total = 1
+    return total
+
+def check_straight(d, n):
+    c = 0
+    result = 0
+
+    if int(n) == 6:
+        c = check_for_straight(d, 2) + check_for_straight(d, 3) + check_for_straight(d, 4) + check_for_straight(d, 5) + check_for_straight(d, 6)
+    else:
+        c = check_for_straight(d, 1) + check_for_straight(d, 2) + check_for_straight(d, 3) + check_for_straight(d, 4) + check_for_straight(d, 5)
+    if (c == 5):
+        result = 100
+    else:
+        result = factorial(5 - c) / 6**(5 - c) * 100
+    return result
+
+def check_for_full(d, n_three, n_pair):
+    r_three = 0
+    r_pair = 0
+    result_three = 0
+    result_pair = 0
+    total = 0
+
+    if (d[0] == n_three):
+        r_three += 1
+    if (d[1] == n_three):
+        r_three += 1
+    if (d[2] == n_three):
+        r_three += 1
+    if (d[3] == n_three):
+        r_three += 1
+    if (d[4] == n_three):
+        r_three += 1
+    
+    if (d[0] == n_pair):
+        r_pair += 1
+    if (d[1] == n_pair):
+        r_pair += 1
+    if (d[2] == n_pair):
+        r_pair += 1
+    if (d[3] == n_pair):
+        r_pair += 1
+    if (d[4] == n_pair):
+        r_pair += 1
+
+    if (r_pair + r_three == 5):
+        total = 100
+    else:
+        if (r_three > 3):
+            r_three = 3
+        if (r_pair > 2):
+            r_pair = 2
+        result_pair = factorial(5 - (r_three + r_pair)) / (factorial(3 - r_pair) * factorial((5 - (r_pair + r_three)) - (3 - r_three)))
+        result_three = factorial(2 - r_pair) / (factorial(2 - r_pair) * factorial((2 - r_pair) - (2 - r_pair)))
+        total = (result_three * result_pair) / 6**(5 - (r_three + r_pair)) * 100
+    return total
+
+
+def check_full(d, n_three, n_pair):
+    c = 0
+    result = 0
+    result = check_for_full(d, n_three, n_pair)
+
+    if (c == 5):
+        result = 100
+    return result
+
+def check_nb_dices():
+    if len(argv) == 7:
+        for i in range(1, 6):
+            try:
+                value = int(argv[i])
+                if value > 6 or value < 0:
+                    exit(84)
+            except ValueError:
+                exit(84)
+
+def main():
+
+    if "-h" in argv:
+        print(f"USAGE")
+        print(f"    ./201yams d1 d2 d3 d4 d5 c\n")
+        print(f"DESCRIPTION")
+        print(f"    d1      value of the first die (0 if not thrown)")
+        print(f"    d2      value of the second die (0 if not thrown)")
+        print(f"    d3      value of the third die (0 if not thrown)")
+        print(f"    d4      value of the fourth die (0 if not thrown)")
+        print(f"    d5      value of the fifth die (0 if not thrown)")
+        print(f"    c       expected combination")
+        return 0
+
+    if (len(argv) == 2 and argv[1 == "-h"]):
+        help()
+    if (len(argv) != 7):
+        exit(84)
+    try:
+        d = (int(argv[1]), int(argv[2]), int(argv[3]), int(argv[4]), int(argv[5]))
+        if (int(argv[1]) < 0 or int(argv[1]) > 6):
+            return 84
+        if (int(argv[2]) < 0 or int(argv[2]) > 6):
+            return 84
+        if (int(argv[3]) < 0 or int(argv[3]) > 6):
+            return 84
+        if (int(argv[4]) < 0 or int(argv[4]) > 6):
+            return 84
+        if (int(argv[5]) < 0 or int(argv[5]) > 6):
+            return 84
+        string = str(argv[6])
+    except ValueError:
+        print("ERROR")
+        return 84
+
+    p = 0
+    c = 0
+
+    #----------------------------PAIR----------------------------#
+    if "pair_" in string and len(string) == 6:
+        if (int(string[5]) > 6 or int(string[5]) < 0):
+            return 84
+        c = check_num(d, int(string[5]))
+        if c >= 2:
+            p = 100
+        else :
+            p = check_pair(c)
+        print(f"Chances to get a {string[5]} pair: {p:.2f}%")
+        return 0
+
+    #----------------------------THREE----------------------------#
+    if "three_" in string and len(string) == 7:
+        if (int(string[6]) > 6 or int(string[6]) < 0):
+            return 84
+        c = check_num(d, int(string[6]))
+        if c >= 3:
+            p = 100
+        else:
+            p = check_three(c)
+        print(f"Chances to get a {string[6]} three-of-a-kind: {p:.2f}%")
+        return 0
+
+    #----------------------------FOUR----------------------------#
+    if "four_" in string and len(string) == 6:
+        if (int(string[5]) > 6 or int(string[5]) < 0):
+            return 84
+        c = check_num(d, int(string[5]))
+        if c >= 4:
+            p = 100
+        else:
+            p = check_four(c)
+        print(f"Chances to get a {string[5]} four-of-a-kind: {p:.2f}%")
+        return 0
+
+    #----------------------------FULL----------------------------#
+    if "full_" in string and len(string) == 8:
+        if (int(string[7]) > 6 or int(string[7]) < 0):
+            return 84
+        if (int(string[5]) > 6 or int(string[5]) < 0):
+            return 84
+        p = check_full(d, int(string[5]), int(string[7]))
+        print(f"Chances to get a {string[5]} full of {string[7]}: {p:.2f}%")
+        return 0
+
+    #----------------------------STRAIGHT----------------------------#
+    if "straight_" in string and len(string) == 10:
+        if (int(string[9]) > 6 or int(string[9]) < 5):
+            return 84
+        p = check_straight(d, string[9])
+        print(f"Chances to get a {string[9]} straight: {p:.2f}%")
+        return 0
+
+    #----------------------------YAMS----------------------------#
+    if "yams_" in string and len(string) == 6:
+        if (int(string[5]) > 6 or int(string[5]) < 0):
+            return 84
+        c = check_num(d, int(string[5]))
+        if c == 5:
+            p = 100
+        else :
+            p = check_yams(c)
+        print(f"Chances to get a {string[5]} yams: {p:.2f}%")
+        return 0
+
+
+    print("ERROR")
+    return 84
+
+
+if __name__ == "__main__":
+    exit(main())
