@@ -26,4 +26,6 @@ fclean: clean
 
 re: fclean all
 
+tests_run:
+		@echo "This is a test!"
 .PHONY: all clean fclean re
